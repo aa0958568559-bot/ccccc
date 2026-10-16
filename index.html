@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f0e6">
+  <title>您好｜一日雅集</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f0e6; --card: #fffdf8; --ink: #292c25; --muted: #858579;
+      --green: #52654d; --green-pale: #e8ece2; --red: #a94e3c;
+      --line: #e9e2d5; --gold: #c1a66a;
+      font-family: "Noto Serif TC", "Songti TC", "PMingLiU", "Microsoft JhengHei", serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; background-color: var(--paper);
+      background-image: radial-gradient(ellipse at 88% 7%, rgba(193,166,106,.12), transparent 25rem), radial-gradient(ellipse at 5% 75%, rgba(82,101,77,.07), transparent 24rem);
+      color: var(--ink);
+    }
+    button, input, textarea { font: inherit; }
+    .page { width: min(100% - 48px, 1056px); margin-inline: auto; padding: 38px 0 56px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 19px; border-bottom: 1px solid var(--line); }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--green); font-size: 14px; letter-spacing: .16em; }
+    .seal { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid var(--red); color: var(--red); font-size: 14px; letter-spacing: 0; }
+    .top-note { color: var(--muted); font-size: 12px; letter-spacing: .12em; }
+    .hero { position: relative; padding: 48px 0 37px; }
+    .eyebrow { margin: 0 0 10px; color: var(--red); font-size: 12px; letter-spacing: .22em; }
+    h1 { margin: 0; font-size: clamp(38px, 7vw, 60px); font-weight: 500; letter-spacing: .12em; line-height: 1.25; }
+    .hero-bottom { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-top: 18px; }
+    .date { margin: 0; color: var(--green); font-size: 15px; letter-spacing: .08em; }
+    .hero-quote { margin: 0; color: var(--muted); font-size: 13px; letter-spacing: .08em; }
+    .stamp { position: absolute; top: 49px; right: 18px; display: grid; width: 61px; height: 61px; place-items: center; border: 1px solid rgba(169,78,60,.5); border-radius: 50%; color: var(--red); font-size: 13px; line-height: 1.5; letter-spacing: .12em; writing-mode: vertical-rl; text-orientation: upright; overflow-wrap: normal; word-break: keep-all; transform: none; }
+    .columns { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 20px; align-items: start; }
+    .stack { display: grid; gap: 20px; min-width: 0; }
+    .panel { min-width: 0; padding: 23px 25px; border: 1px solid var(--line); background: rgba(255,253,248,.88); box-shadow: 0 8px 28px rgba(54,48,35,.035); }
+    .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .section-heading h2 { margin: 0; font-size: 19px; font-weight: 500; letter-spacing: .13em; }
+    .section-heading span { color: var(--muted); font-size: 11px; letter-spacing: .1em; }
+    .agenda-list, .todo-list { margin: 0; padding: 0; list-style: none; }
+    .agenda-item { display: grid; grid-template-columns: 64px 1fr; gap: 14px; padding: 15px 0; border-top: 1px solid var(--line); }
+    .agenda-item:first-child { border-top: 0; }
+    .time { padding-top: 2px; color: var(--green); font-size: 13px; font-variant-numeric: tabular-nums; }
+    .event-title { margin: 0; font-size: 15px; letter-spacing: .04em; }
+    .event-detail { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .todo-item { display: flex; align-items: center; gap: 11px; padding: 13px 0; border-top: 1px solid var(--line); }
+    .todo-item:first-child { border-top: 0; }
+    .check { flex: 0 0 17px; width: 17px; height: 17px; display: grid; place-items: center; border: 1px solid #c9c3b5; color: white; font-family: sans-serif; font-size: 11px; }
+    .todo-item.done .check { border-color: var(--green); background: var(--green); }
+    .todo-text { min-width: 0; flex: 1; font-size: 14px; }
+    .todo-item.done .todo-text { color: var(--muted); text-decoration: line-through; text-decoration-color: #c3bdb1; }
+    .status { flex: 0 0 auto; padding: 4px 8px; border-radius: 2px; background: var(--green-pale); color: var(--green); font-size: 11px; }
+    .field { display: grid; gap: 6px; min-width: 0; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { color: #6f7066; font-size: 12px; letter-spacing: .06em; }
+    .field input, .field textarea { width: 100%; min-width: 0; padding: 10px 11px; border: 1px solid var(--line); border-radius: 0; outline: none; background: #fffefa; color: var(--ink); font-size: 13px; }
+    .field input:focus, .field textarea:focus { border-color: var(--green); }
+    .field input::placeholder, .field textarea::placeholder { color: #b5b0a5; }
+    .field textarea { min-height: 68px; resize: vertical; }
+    .form-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; }
+    .form-hint { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .submit { flex: 0 0 auto; padding: 9px 17px; border: 1px solid var(--green); background: var(--green); color: white; font-size: 12px; letter-spacing: .1em; cursor: pointer; }
+    .submit:hover { background: #40513c; }
+    .footer { display: flex; justify-content: center; gap: 10px; padding-top: 25px; color: var(--muted); font-size: 11px; letter-spacing: .15em; }
+    .footer::before, .footer::after { content: "—"; color: var(--gold); }
+    @media (max-width: 700px) {
+      .page { width: min(100% - 32px, 520px); padding-top: 23px; }
+      .hero { padding: 37px 0 28px; }
+      .stamp { top: 37px; right: 4px; width: 44px; height: 62px; font-size: 12px; line-height: 1.35; letter-spacing: .06em; }
+      .hero-bottom { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .hero-quote { max-width: 85%; line-height: 1.7; }
+      .columns { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+      .stack { gap: 16px; }
+      .panel { padding: 20px 18px; }
+    }
+    @media (max-width: 380px) {
+      .page { width: calc(100% - 24px); }
+      .top-note { font-size: 10px; }
+      .form-grid { grid-template-columns: minmax(0, 1fr); }
+      .field.full { grid-column: auto; }
+      .form-actions { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand"><span class="seal" aria-hidden="true">雅</span><span>一日雅集</span></div>
+      <span class="top-note">拾一日清閒，理心中事</span>
+    </header>
+    <section class="hero" aria-labelledby="greeting">
+      <p class="eyebrow">DAILY JOURNAL · 日常箋記</p>
+      <h1 id="greeting">您好</h1>
+      <div class="hero-bottom">
+        <p class="date" id="today-date" aria-live="polite"></p>
+        <p class="hero-quote">庭有清風，心有尺素；從容安排，日日是好日。</p>
+      </div>
+      <span class="stamp" aria-hidden="true">平安喜樂</span>
+    </section>
+    <div class="columns">
+      <section class="panel" aria-labelledby="agenda-heading">
+        <div class="section-heading"><h2 id="agenda-heading">今日行程</h2><span>AGENDA · 三事</span></div>
+        <ol class="agenda-list">
+          <li class="agenda-item"><time class="time" datetime="09:00">09:00</time><div><p class="event-title">晨間閱讀・靜心片刻</p><p class="event-detail">窗邊一盞茶，讀書三十分鐘</p></div></li>
+          <li class="agenda-item"><time class="time" datetime="13:30">13:30</time><div><p class="event-title">專注時光・整理手邊事</p><p class="event-detail">留一段清靜，專心完成工作</p></div></li>
+          <li class="agenda-item"><time class="time" datetime="18:00">18:00</time><div><p class="event-title">晚間散步・沿溪而行</p><p class="event-detail">放慢腳步，看看暮色與草木</p></div></li>
+        </ol>
+      </section>
+      <div class="stack">
+        <section class="panel" aria-labelledby="todo-heading">
+          <div class="section-heading"><h2 id="todo-heading">待辦清單</h2><span>TO-DO · 三件</span></div>
+          <ul class="todo-list">
+            <li class="todo-item done"><span class="check" aria-label="已完成">✓</span><span class="todo-text">整理今日工作清單</span><span class="status">已完成</span></li>
+            <li class="todo-item"><span class="check" aria-label="尚未完成"></span><span class="todo-text">回覆重要信件</span><span class="status pending">待處理</span></li>
+            <li class="todo-item"><span class="check" aria-label="尚未完成"></span><span class="todo-text">添購茶葉與花材</span><span class="status pending">待處理</span></li>
+          </ul>
+        </section>
+        <section class="panel" aria-labelledby="new-event-heading">
+          <div class="section-heading"><h2 id="new-event-heading">添一筆行程</h2><span>NEW NOTE · 隨手記</span></div>
+          <form action="#" method="get" onsubmit="return false">
+            <div class="form-grid">
+              <div class="field"><label for="event-date">日期</label><input id="event-date" name="date" type="date"></div>
+              <div class="field"><label for="event-time">時辰</label><input id="event-time" name="time" type="time"></div>
+              <div class="field full"><label for="event-title">行程名稱</label><input id="event-title" name="title" type="text" placeholder="例如：午後品茗"></div>
+              <div class="field full"><label for="event-note">備註</label><textarea id="event-note" name="note" placeholder="添幾筆細節，為今日留箋……"></textarea></div>
+            </div>
+            <div class="form-actions"><p class="form-hint">此處為表單外觀示意，填寫內容不會送出。</p><button class="submit" type="button">＋　記下行程</button></div>
+          </form>
+        </section>
+      </div>
+    </div>
+    <footer class="footer">歲月靜好，現世安穩</footer>
+  </main>
+  <script>
+    (() => {
+      const now = new Date();
+      const date = new Intl.DateTimeFormat('zh-TW', {
+        year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+      }).format(now);
+      document.getElementById('today-date').textContent = date;
+      document.getElementById('event-date').value = [
+        now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')
+      ].join('-');
+    })();
+  </script>
+</body>
+</html>
